@@ -5,13 +5,14 @@ fluidDensityAir = 1.225
 dragCoeff = 0.5
 planetList = ["Sun", "Mercury", "Venus", "Earth", "Moon", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Custom"]
 planetG = [274.13, 3.59, 8.87, 9.81, 1.62, 3.77, 25.95, 11.08, 10.67, 14.07, 1]
+planetAir = [0, 0, 67, 1.225, 0, 0.02, 83.1, 60, 55, 60, 0]
 listNum = 0
 listLength = len(planetList)
 
 def constantEditor():
 
     def changeG():
-        change = input("Do you want to change your value of g? 'yes' or 'no': ")
+        change = input("Do you want to change the planet(or make a custom setting?)? 'yes' or 'no': ")
         if change == 'yes':
             constantChange()
         elif change == 'no':
@@ -30,8 +31,10 @@ def constantEditor():
         gNum = int(input("type the number corresponding to the planet, or 10 for your own custom value:"))
         if -1 < gNum < 10:
             g = planetG[gNum]
+            fluidDensityAir = planetAir[gNum]
         elif gNum == 10:
             g = float(input("What is your new value of g: "))
+            fluidDensityAir = float(input("What is the planets fluid density: "))
         else:
             print("Uh oh, looks like you typed your number wrong, try again")
             constantChange()
@@ -92,6 +95,7 @@ def main():
     def restarter():
         restartDesc = input("\nRestart program? 'yes' or 'no': ")
         if restartDesc == 'yes':
+            constantEditor()
             main()
         elif restartDesc == 'no':
             quit()
@@ -104,4 +108,7 @@ def main():
 introduction()    
 constantEditor()
 main()
+
+   
+        
 
