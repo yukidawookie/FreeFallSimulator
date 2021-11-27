@@ -1,0 +1,98 @@
+import math
+
+#different constants
+g = 9.80665
+fluidDensityAir = 1.225
+dragCoeff = 0.5
+
+
+def introduction():
+    #introduces program
+    print("Welcome to the free fall simulator")
+    print("This simulator will calculate the time taken for an object to fall to the ground")
+    print("It takes into account air resistance and terminal velocity")
+    print("The other constant values can be edited near the top of the code where they are declared\n\n")
+    
+def getInput():
+    #gets the different necessary values needed
+    global height
+    global area
+    global mass
+    height = float(input("Height from which object is falling(metres): "))
+    area = float(input("Projected Area of the object(metres squared): "))
+    mass = float(input("Mass of object(kg): "))
+
+    
+    
+
+    
+def terminalVelocity():
+    #calculates the terminal velocity of the object
+    upperNume = 2 * mass * g
+    lowerNume = fluidDensityAir * area * dragCoeff
+    discriminant = upperNume / lowerNume
+    global termVelocity
+    termVelocity = math.sqrt(discriminant)
+    return termVelocity
+    
+def fallTime():
+    #does final calculations for time
+    terminalVelocity()
+    termTime = termVelocity / g
+    #finds the distance taken for terminal velocity to be reached
+    termDist = (termTime ** 2) * 0.5 * g
+    global timeTaken
+    #checks if terminal velocity was reached and calculates time taken depending on this
+    if termDist > height:
+        timeTaken = math.sqrt(height/(0.5*g))
+        print("\nThe time taken for the object to fall is:",timeTaken, " seconds")
+        print("Terminal Velocity was not reached\n")
+        return timeTaken
+    else:
+        time2 = (height - termDist) / termVelocity
+        timeTaken = termTime + time2
+        print("\nThe time taken for the object to fall is:",timeTaken, " seconds")
+        print("Terminal Velocity was reached\n")
+        return timeTaken
+   
+
+def roundFunc():
+    #checks if user wants to round prgam and then does  it
+    roundDesc = input("Round this answer? 'yes' OR 'no': ")
+    if roundDesc == "yes":
+        global roundedTimeTaken
+        roundedTimeTaken = round(timeTaken , 2)
+        print("The rounded time is: ", roundedTimeTaken, " seconds")
+    elif roundDesc == 'no':
+        print("The time taken for the object to fall is:",timeTaken, " seconds")
+    else:
+        print("Please type yes or no: ")
+        roundFunc()
+    
+       
+
+def main():
+    #executes all the different functions
+    
+    introduction()
+    getInput()
+    fallTime()
+    roundFunc()
+    
+    #checks if the user wants to restart the program
+    def restarter():
+        restartDesc = input("\nRestart program? 'yes' or 'no': ")
+        if restartDesc == 'yes':
+            main()
+        elif restartDesc == 'no':
+            quit()
+        else:
+            print("Please type yes or no:")
+            restarter()
+    
+    restarter()
+    
+#executes the function    
+main()
+   
+        
